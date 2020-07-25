@@ -1,4 +1,4 @@
-# My linear programing virtual environment setup
+# My linear programming virtual environment setup
 
 1. Install **pipenv** package:
 ```
