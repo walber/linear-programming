@@ -8,20 +8,26 @@ df = pd.read_csv(table)
 # Variables
 X = [model.add_var(name=row['name'], var_type=INTEGER, lb=0, ub=row['max_serv']) for i, row in df.iterrows()]
 
+def constraint_vars(attr):
+    return (row[attr] * X[i] for i, row in df.iterrows())
+
+#
+# Objective function
+#
+model.objective = minimize(xsum(constraint_vars('price')))
+
 #
 # Constraints
 #
 
 # Energy
-model += xsum(row['energy'] * X[i] for i, row in df.iterrows()) >= 1000 
+model += xsum(constraint_vars('energy')) >= 1000
 
 # Protein
-model += xsum(row['protein'] * X[i] for i, row in df.iterrows()) >= 55
+model += xsum(constraint_vars('protein')) >= 55
 
 # Calcium
-model += xsum(row['calcium'] * X[i] for i, row in df.iterrows()) >= 800
-
-model.objective = minimize(xsum(row['price'] * X[i] for i, row in df.iterrows()))
+model += xsum(constraint_vars('calcium')) >= 800
 
 model.optimize()
 
