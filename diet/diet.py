@@ -1,8 +1,9 @@
 from mip import Model, xsum, minimize, INTEGER
+from os import path
 import pandas as pd
 
 model = Model("Diet")
-table = r'table.csv'
+table = path.join(path.dirname(path.abspath(__file__)), 'table.csv')
 df = pd.read_csv(table)
 
 # Variables
